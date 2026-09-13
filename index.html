@@ -1321,8 +1321,14 @@
             p.isLimiting = false; 
 
             if (!keys[p.keys.up] && p.wasAccelerating && rpm >= 4000 && rpm <= 7000) {
-                p.sounds.backfire.currentTime = 0;
-                p.sounds.backfire.play().catch(e=>{});
+                // Déclenche un délai de 350 millisecondes (0.35s)
+                setTimeout(() => {
+                    // Si le joueur n'a pas réaccéléré entre temps et n'est pas crashé
+                    if (!keys[p.keys.up] && !p.isDead) {
+                        p.sounds.backfire.currentTime = 0;
+                        p.sounds.backfire.play().catch(e=>{});
+                    }
+                }, 350); 
             }
 
             if (keys[p.keys.up]) {
